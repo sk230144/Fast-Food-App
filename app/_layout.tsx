@@ -13,9 +13,15 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if(error) throw error;
-    if(fontsLoaded) SplashScreen.hideAsync();
+    if (error) throw error;
+    if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded, error]);
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return <Stack
+    screenOptions={{ headerShown: false }}
+    initialRouteName="(tabs)" // This sets tabs as the initial route
+  >
+    <Stack.Screen name="(tabs)" />
+    <Stack.Screen name="(auth)" />
+  </Stack>
 }
