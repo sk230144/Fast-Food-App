@@ -6,13 +6,12 @@ export const appwriteConfig = {
     projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!,
     platform: "com.food_ordering",
     databaseId: '68c808f10012d730e205',
-
-    bucketId: '68643e170015edaa95d7',
+    bucketId: '68cd45f60029bb5afb24',
     userCollectionId: 'user',
-    categoriesCollectionId: '68643a390017b239fa0f',
-    menuCollectionId: '68643ad80027ddb96920',
-    customizationsCollectionId: '68643c0300297e5abc95',
-    menuCustomizationsCollectionId: '68643cd8003580ecdd8f'
+    categoriesCollectionId: 'categories',
+    menuCollectionId: 'menu',
+    customizationsCollectionId: 'customizations',
+    menuCustomizationsCollectionId: 'menu_customizations'
 }
 
 export const client = new Client();
