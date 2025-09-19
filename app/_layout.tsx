@@ -3,12 +3,10 @@ import './globals.css'
 import { useFonts } from 'expo-font';
 import { useEffect } from "react";
 import * as Sentry from '@sentry/react-native';
+import useAuthStore from "@/store/auth.store";
 
 Sentry.init({
   dsn: 'https://ccb475f36b723be29b7688e810a06152@o4507830493052928.ingest.us.sentry.io/4507830511271936',
-
-  // Adds more context data to events (IP address, cookies, user, etc.)
-  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
   sendDefaultPii: true,
 
   // Configure Session Replay
@@ -29,10 +27,18 @@ export default Sentry.wrap(function RootLayout() {
     "QuickSand-Light": require('../assets/fonts/Quicksand-Light.ttf'),
   });
 
+  const {isLoading, fetchAuthenticatedUser} = useAuthStore();
+
   useEffect(() => {
     if (error) throw error;
     if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded, error]);
+
+  useEffect(() => {
+    fetchAuthenticatedUser();
+  },[]);
+
+  if (isLoading) return null;
 
   return <Stack
     screenOptions={{ headerShown: false }}

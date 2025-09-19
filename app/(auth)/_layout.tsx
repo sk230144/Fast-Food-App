@@ -1,9 +1,12 @@
 import { images } from '@/constants'
-import { Slot } from 'expo-router'
+import useAuthStore from '@/store/auth.store';
+import { Redirect, Slot } from 'expo-router'
 import { Text, KeyboardAvoidingView, Platform, ScrollView, View, Dimensions, ImageBackground, Image } from 'react-native'
 
 
 const AuthLayout = () => {
+  const {isAuthenticated} = useAuthStore();
+  if(isAuthenticated) return <Redirect href= '/' />
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView className='bg-white h-full' keyboardShouldPersistTaps='handled'>
