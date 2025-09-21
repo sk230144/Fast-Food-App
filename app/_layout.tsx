@@ -60,11 +60,5 @@ export default Sentry.wrap(function RootLayout() {
 
 
 
-  return <Stack
-    screenOptions={{ headerShown: false }}
-    initialRouteName="(tabs)" // This sets tabs as the initial route
-  >
-    <Stack.Screen name="(tabs)" />
-    <Stack.Screen name="(auth)" />
-  </Stack>
+  return <Stack screenOptions={{ headerShown: false }} />;
 });
