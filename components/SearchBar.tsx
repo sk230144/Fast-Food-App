@@ -35,7 +35,7 @@ const Searchbar = () => {
                 <Image
                     source={images.search}
                     className="size-6"
-                    resizeMode="contain"
+                    resizeMode="contain" 
                     tintColor="#5D5F6D"
                 />
             </TouchableOpacity>
