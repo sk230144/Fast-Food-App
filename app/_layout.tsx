@@ -4,6 +4,7 @@ import { useFonts } from 'expo-font';
 import { useEffect } from "react";
 import * as Sentry from '@sentry/react-native';
 import useAuthStore from "@/store/auth.store";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 
 Sentry.init({
   dsn: 'https://ccb475f36b723be29b7688e810a06152@o4507830493052928.ingest.us.sentry.io/4507830511271936',
@@ -38,7 +39,26 @@ export default Sentry.wrap(function RootLayout() {
     fetchAuthenticatedUser();
   },[]);
 
-  if (isLoading) return null;
+  const styles = StyleSheet.create({
+    loaderContainer: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",     
+      backgroundColor: "#fff", // dark background for contrast (optional)
+      padding: 10,
+      borderRadius: 8,
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size={40} color="#4CAF50" />
+      </View>
+    );
+  }
+
+
 
   return <Stack
     screenOptions={{ headerShown: false }}

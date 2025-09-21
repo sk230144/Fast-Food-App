@@ -58,23 +58,37 @@ async function clearStorage(): Promise<void> {
 }
 
 async function uploadImageToStorage(imageUrl: string) {
-    const response = await fetch(imageUrl);
-    const blob = await response.blob();
+    try {
+        const response = await fetch(imageUrl);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch image: ${response.status}`);
+        }
 
-    const fileObj = {
-        name: imageUrl.split("/").pop() || `file-${Date.now()}.jpg`,
-        type: blob.type,
-        size: blob.size,
-        uri: imageUrl,
-    };
+        const blob = await response.blob();
 
-    const file = await storage.createFile(
-        appwriteConfig.bucketId,
-        ID.unique(),
-        fileObj
-    );
+        // Create a proper File object for React Native
+        const fileName = imageUrl.split("/").pop() || `file-${Date.now()}.jpg`;
 
-    return storage.getFileViewURL(appwriteConfig.bucketId, file.$id);
+        // For React Native, you might need to use a different approach
+        const file = {
+            name: fileName,
+            type: blob.type || 'image/jpeg',
+            size: blob.size,
+            // Try using the original URL or convert blob to base64
+            uri: imageUrl,
+        };
+
+        const uploadedFile = await storage.createFile(
+            appwriteConfig.bucketId,
+            ID.unique(),
+            file
+        );
+
+        return storage.getFileViewURL(appwriteConfig.bucketId, uploadedFile.$id);
+    } catch (error) {
+        console.error("Image upload failed:", error);
+        throw error;
+    }
 }
 
 async function seed(): Promise<void> {
