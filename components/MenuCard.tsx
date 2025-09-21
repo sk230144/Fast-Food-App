@@ -7,9 +7,6 @@ const MenuCard = ({ item: { $id, image_url, name, price } }: { item: MenuItem })
     const imageUrl = `${image_url}?project=${appwriteConfig.projectId}`;
     // const { addItem } = useCartStore();
 
-    console.log('Image URL:', imageUrl);
-    console.log('Original image_url:', image_url);
-
     return (
         <TouchableOpacity className="menu-card" style={Platform.OS === 'android' ? { elevation: 10, shadowColor: '#878787' } : {}}>
             <Image
