@@ -9,6 +9,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import cn from "clsx";
 import MenuCard from '@/components/MenuCard';
 import { MenuItem } from '@/type';
+import Filter from '@/components/Filter';
+import Searchbar from '@/components/SearchBar';
 
 const Search = () => {
 
@@ -53,9 +55,9 @@ const Search = () => {
                           <CartButton />
                       </View>
 
-                      {/* <SearchBar /> */}
+                      <Searchbar />
 
-                      {/* <Filter categories={categories!} /> */}
+                      <Filter categories={categories!} />
                   </View>
               )}
               ListEmptyComponent={() => !loading && <Text>No results</Text>}

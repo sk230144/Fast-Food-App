@@ -1,17 +1,20 @@
-import { SplashScreen, Stack } from "expo-router";
-import './globals.css'
+import {SplashScreen, Stack} from "expo-router";
 import { useFonts } from 'expo-font';
-import { useEffect } from "react";
+import { useEffect} from "react";
+
+import './globals.css';
 import * as Sentry from '@sentry/react-native';
 import useAuthStore from "@/store/auth.store";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
 
 Sentry.init({
-  dsn: 'https://ccb475f36b723be29b7688e810a06152@o4507830493052928.ingest.us.sentry.io/4507830511271936',
+  dsn: 'https://94edd17ee98a307f2d85d750574c454a@o4506876178464768.ingest.us.sentry.io/4509588544094208',
+
+  // Adds more context data to events (IP address, cookies, user, etc.)
+  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
   sendDefaultPii: true,
 
   // Configure Session Replay
-  replaysSessionSampleRate: 0.1,
+  replaysSessionSampleRate: 1,
   replaysOnErrorSampleRate: 1,
   integrations: [Sentry.mobileReplayIntegration(), Sentry.feedbackIntegration()],
 
@@ -20,6 +23,8 @@ Sentry.init({
 });
 
 export default Sentry.wrap(function RootLayout() {
+  const { isLoading, fetchAuthenticatedUser } = useAuthStore();
+
   const [fontsLoaded, error] = useFonts({
     "QuickSand-Bold": require('../assets/fonts/Quicksand-Bold.ttf'),
     "QuickSand-Medium": require('../assets/fonts/Quicksand-Medium.ttf'),
@@ -28,37 +33,18 @@ export default Sentry.wrap(function RootLayout() {
     "QuickSand-Light": require('../assets/fonts/Quicksand-Light.ttf'),
   });
 
-  const {isLoading, fetchAuthenticatedUser} = useAuthStore();
-
   useEffect(() => {
-    if (error) throw error;
-    if (fontsLoaded) SplashScreen.hideAsync();
+    if(error) throw error;
+    if(fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded, error]);
 
   useEffect(() => {
-    fetchAuthenticatedUser();
-  },[]);
+    fetchAuthenticatedUser()
+  }, []);
 
-  const styles = StyleSheet.create({
-    loaderContainer: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",     
-      backgroundColor: "#fff", // dark background for contrast (optional)
-      padding: 10,
-      borderRadius: 8,
-    },
-  });
-
-  if (isLoading) {
-    return (
-      <View style={styles.loaderContainer}>
-        <ActivityIndicator size={40} color="#4CAF50" />
-      </View>
-    );
-  }
-
-
+  if(!fontsLoaded || isLoading) return null;
 
   return <Stack screenOptions={{ headerShown: false }} />;
 });
+
+Sentry.showFeedbackWidget();
