@@ -1,4 +1,4 @@
-import {SplashScreen, Stack} from "expo-router";
+import {Redirect, SplashScreen, Stack} from "expo-router";
 import { useFonts } from 'expo-font';
 import { useEffect} from "react";
 
@@ -43,8 +43,13 @@ export default Sentry.wrap(function RootLayout() {
   }, []);
 
   if(!fontsLoaded || isLoading) return null;
+  
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return <Stack
+    screenOptions={{ headerShown: false }}
+    initialRouteName="(tabs)" // This sets tabs as the initial route
+  >
+    <Stack.Screen name="(tabs)" />
+    <Stack.Screen name="(auth)" />
+  </Stack>
 });
-
-Sentry.showFeedbackWidget();
